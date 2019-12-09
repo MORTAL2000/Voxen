@@ -49,6 +49,9 @@ void MainWindow::OnImage()
 {
 //    qDebug() << "UPdating texture";
     ui->widget->setTexture(m_renderer.m_img);
+    ui->widget->chromatic = 0;
+    ui->widget->CD = QVector3D(0,0,0);
+    ui->widget->lsca = 0;
 }
 
 void MainWindow::OnQuit()

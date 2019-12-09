@@ -44,6 +44,8 @@ void GLWidget::paintGL()
     uint texture_unit = 1;
     m_texture->bind( texture_unit );
 
+
+
     // activate the shader
     m_program->bind();
     m_program->setUniformValue( "screen", texture_unit );

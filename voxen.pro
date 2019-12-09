@@ -21,6 +21,7 @@ SOURCES += \
     source/glwidget.cpp \
     source/misc/SimplexNoise.cpp \
     source/misc/cinifile.cpp \
+    source/misc/lcolorlist.cpp \
     source/misc/util.cpp \
     source/raytracer/camera.cpp \
     source/raytracer/material.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     source/glwidget.h \
     source/misc/SimplexNoise.h \
     source/misc/cinifile.h \
+    source/misc/lcolorlist.h \
     source/misc/random.h \
     source/misc/util.h \
     source/raytracer/camera.h \
@@ -61,7 +63,7 @@ win32-msvc*{
 }
 linux*{
     LIBS += -fopenmp
-    QMAKE_CXXFLAGS += -fopenmp -O2
+    QMAKE_CXXFLAGS += -fopenmp -Ofast
 
 }
 

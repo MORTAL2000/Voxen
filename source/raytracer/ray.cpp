@@ -38,14 +38,16 @@ bool Ray::IntersectSphere(const QVector3D& pos, QVector3D r, QVector3D &isp1, QV
     return true;
 }
 
-bool Ray::IntersectBox(QVector3D pos, QVector3D bb,QVector3D& isp1,QVector3D& isp2, double& t0, double& t1)
+bool Ray::IntersectBox(const QVector3D& pos, const QVector3D& bb, float& t0, float& t1)
 {
-    QVector3D min = bb*-1+pos;
-    QVector3D max = bb+pos;
 
+
+        QVector3D min = pos-bb;
+        QVector3D max = bb+pos;
 
         float tmin = (min.x() - m_origin.x()) / m_direction.x();
         float tmax = (max.x() - m_origin.x()) / m_direction.x();
+
 
         if (tmin > tmax) swap(tmin, tmax);
 
@@ -77,6 +79,24 @@ bool Ray::IntersectBox(QVector3D pos, QVector3D bb,QVector3D& isp1,QVector3D& is
         if (tzmax < tmax)
             tmax = tzmax;
 
+        t0=tmin;
+        t1=tmax;
+
+
+
+
+        m_hit = m_origin + m_direction*t0;
+
+
+//        c = (b.aabb.vmin + b.aabb.vmax) * 0.5
+          QVector3D p = m_hit - pos;
+          QVector3D d = (min - max) * 0.5;
+          double bias = 1.0001;
+
+          m_N = QVector3D(
+                      (int)(p.x() / abs(d.x()) * bias),
+                      (int)(p.y() / abs(d.y()) * bias),
+                      (int)(p.z() / abs(d.z()) * bias)).normalized();
 
         return true;
 }

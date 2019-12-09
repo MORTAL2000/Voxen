@@ -3,7 +3,7 @@
 
 #include <QVector>
 #include <QVector3D>
-
+#include <math.h>
 
 class Ray {
 public:
@@ -11,7 +11,9 @@ public:
     QVector3D m_direction;
     QVector3D m_intensity = QVector3D(0,0,0);
     QVector3D m_isp1, m_isp2;
-    double m_t0, m_t1;
+    QVector3D m_N;
+    QVector3D m_hit;
+    float m_t0, m_t1;
     bool m_intersects = false;
     float m_reflect = 3;
     double m_z = 1E20;
@@ -49,7 +51,7 @@ public:
     }
 
     bool IntersectSphere(const QVector3D& pos, QVector3D r,QVector3D& isp1,QVector3D& isp2, double& t0, double& t1);
-    bool IntersectBox(QVector3D pos, QVector3D bb,QVector3D& isp1,QVector3D& isp2, double& t0, double& t1);
+    bool IntersectBox(const QVector3D& pos, const QVector3D& bb, float& t0, float& t1);
 
 };
 
