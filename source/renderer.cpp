@@ -22,12 +22,12 @@ void Renderer::run()
 
 
  //       m_img.fill(QColor(255,rand()%255,0,255).rgb());
-        float t = m_rt.m_globals.m_time*0.1 + 1;
-        m_rt.m_globals.m_lights[0]->m_direction = QVector3D(sin(t),0.9,cos(t)).normalized();
+        float t = m_rt.m_globals.m_time*0.2 + 1;
+        m_rt.m_globals.m_lights[0]->m_direction = QVector3D(sin(t),0.7,cos(t)).normalized();
 
         float r = 50;
-        m_rt.m_camera.m_camera = QVector3D(r*cos(t),0,r*sin(t*0.4212));
-        m_rt.m_camera.m_target = QVector3D(0.5*r*cos(t*0.7123),-20,0.5*r*sin(t*0.3212));
+        m_rt.m_camera.m_camera = QVector3D(r*cos(t),-10,r*sin(t*0.7912));
+        m_rt.m_camera.m_target = QVector3D(0.5*r*cos(t*0.6123),-20,0.5*r*sin(t*0.3212));
         QElapsedTimer tim;
         tim.start();
 

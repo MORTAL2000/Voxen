@@ -17,7 +17,7 @@ class Renderer : public QThread
 
 public:
     Renderer();
-    int m_width = 200;
+    int m_width = 320;
     int m_height = 200;
 
     Raytracer m_rt;

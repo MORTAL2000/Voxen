@@ -42,13 +42,15 @@ void Octtree::InitRandomWorld(int N, float size, int val, int maxlevel)
             for (int y=0;y<(v*0.12+0.15)*S;y++) {
 //                if (p.y()<v*0.2-0.4)
                 p.setY((y/(float)S)-0.5);
-                    m_node.Insert(p*size,abs(p.y()+0.5)*24+4,maxlevel);
+//                    m_node.Insert(p*size,abs(p.y()+0.5)*24+4,maxlevel);
+                    m_node.Insert(p*size,6,maxlevel);
 //                m_node.Insert(p*size,6,maxlevel);
             }
 
             }
-//    m_node.cleanUp();
     }
+    m_node.cleanUp();
+
 }
 
 int Octtree::RayMarchSingle(Ray &ray)
@@ -162,15 +164,26 @@ int OctNode::RayIntersect(Ray &r, int maxLen, OctData& hitNode)
         int kv = 0;
 //        float t = Util::clamp(maxLen*abs(9.0/(sqrt(r.m_t0))),4,7);
         keep.m_t0 = 1E40;
+        float winner = -1;
+        bool ok=true;
         for (int i=0;i<8;i++) {
             OctData hn;
+/*            ok = true;
+            if (winner!=-1)
+            if ((keep.m_hit-r.m_origin).length()<(m_children[i]->center-r.m_origin).length()-size)
+                ok=false;
+
+            if (ok)*/
+            {
             int v = m_children[i]->RayIntersect(r, maxLen, hn);
             if (v!=0) {
                 if (r.m_t0<keep.m_t0) {
                     keep = r;
                     kv = v;
+                    winner = i;
                     hitNode.hitNode = hn.hitNode;
                 }
+            }
             }
         }
 

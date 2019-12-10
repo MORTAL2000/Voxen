@@ -27,6 +27,9 @@ void Raytracer::Render(Octtree& tree, QImage &img)
         for (int i=0;i<img.width();i++)
         {
 
+            if ((rand()%100)>80)
+                continue;
+
             float x = i*m_globals.m_aspect;//*aspect;
             float y = j;//*aspect;
 
@@ -39,7 +42,7 @@ void Raytracer::Render(Octtree& tree, QImage &img)
 //            hn.hitNode = oData[idx];
             if (oData[idx]!=nullptr) {
                 val = oData[idx]->RayIntersect(ray,100,hn);
-                if ((oNorm[idx]-ray.m_N).lengthSquared()>0.5)
+                if ((oNorm[idx]-ray.m_N).lengthSquared()>0.001)
                     val=0; // CANCEL
 
 //                oData[idx] = nullptr;
@@ -56,17 +59,16 @@ void Raytracer::Render(Octtree& tree, QImage &img)
             //            RayMarchSingle(ray, , nullptr,m_globals.m_steps,tid, QPoint(x,y));
             //          tmp[i+j*w] = ray.m_intensity;
            QColor c = Qt::black;
-           m_globals.Sky(&ray,0.7);
+           m_globals.Sky(&ray,0.8);
            QVector3D sky = ray.m_intensity*255;
 
             if (val!=0) {
-                float dist = Util::clamp(0.7*(ray.m_t0*0.01 - ray.m_hit.y()*0.02),0,1);
-                c = m_colors.get(val).color;
+                float dist = Util::clamp(0.6*(ray.m_t0*0.01 - ray.m_hit.y()*0.02),0,1);
+                c = m_colors.get(abs(ray.m_hit.y())/10+6).color;
                 float l = Util::clamp(QVector3D::dotProduct(m_globals.m_lights[0]->m_direction, ray.m_N),0,1);
                // l = 1;
 
-
-/*                Ray hit;
+                Ray hit;
                 hit.m_direction = m_globals.m_lights[0]->m_direction.normalized()*-1;
                 hit.m_origin = ray.m_hit - hit.m_direction*0.001;
                 OctData none;
@@ -75,14 +77,15 @@ void Raytracer::Render(Octtree& tree, QImage &img)
                     treff = oShadows[idx]->RayIntersect(hit,8, none);
                 }
                 if (treff==0) {
-                   tree.RayIntersect(hit,8, none);
+                    if (rand()%100>25)
+                       tree.RayIntersect(hit,8, none);
                 }
 
                 if (hit.m_t0<0) {
-                    l=l*0.20;
+                    l=0.1;
                     oShadows[idx] = none.hitNode;
                 }
-*/
+
 
 
                 c.setRed(c.red()*l);
